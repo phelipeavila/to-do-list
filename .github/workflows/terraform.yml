@@ -33,7 +33,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - id: apply
-      run: terraform apply -auto-approve >> $GITHUB_OUTPUT
+      run: terraform apply -auto-approve >> "$GITHUB_OUTPUT"
       working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
