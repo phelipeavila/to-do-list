@@ -17,6 +17,7 @@ jobs:
 
     - id: init
       run: terraform init 
+      working-directory: 'infrastructure/AWS EC2/terraform'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_ACTION_WORKING_DIR: 'infrastructure/AWS EC2/terraform'
@@ -25,6 +26,7 @@ jobs:
 
     - id: plan
       run: terraform plan
+      working-directory: 'infrastructure/AWS EC2/terraform'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_ACTION_WORKING_DIR: 'infrastructure/AWS EC2/terraform'
