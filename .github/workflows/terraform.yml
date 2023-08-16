@@ -61,7 +61,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            //Get terraform output
             const output = ${{ steps.output.outputs.stdout }}
-            print output
-            return 0
+            console.log(output.master_ext_ip.value)
