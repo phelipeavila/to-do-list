@@ -64,3 +64,4 @@ jobs:
             //Get terraform output
             const output = ${{ steps.output.outputs.stdout }}
             print output
+            return 0
