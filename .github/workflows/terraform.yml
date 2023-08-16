@@ -10,42 +10,50 @@ jobs:
     name: Deploy Site
     runs-on: ubuntu-latest
     steps:
-    - uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_wrapper: true
+      - name: Install jq tool
+        run: |
+          # sudo apt-get update
+          sudo apt-get install jq
 
-    - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: true
+            
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - id: init
-      working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
-      run: terraform init 
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform init
+        id: init
+        working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
+        run: terraform init 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - id: plan
-      run: terraform plan
-      working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform plan
+        id: plan
+        run: terraform plan
+        working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - id: apply
-      run: terraform apply -auto-approve
-      working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - id: apply
+        run: terraform apply -auto-approve
+        working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - id: output
-      run: terraform output -json | jq '.[].value'
-      working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    
-    - run: echo "${{ steps.output.outputs.stdout }}"
+      - id: output
+        run: terraform output -json | jq '.[].value'
+        working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
+      - run: echo "${{ steps.output.outputs.stdout }}"
