@@ -41,7 +41,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - id: output
-      run: pwd && terraform output -json | jq '.[].value'
+      run: terraform output -json | jq '.[].value'
       working-directory: ${{ env.tf_actions_working_dir }}infrastructure/AWS EC2/terraform
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
