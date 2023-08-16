@@ -56,4 +56,10 @@ jobs:
           AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       
-      - run: echo "${{ steps.output.outputs.stdout }}"
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            //Get terraform output
+            const output = ${{ steps.output.outputs.stdout }}
+            echo "$output"
