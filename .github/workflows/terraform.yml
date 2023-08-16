@@ -59,7 +59,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm install execa
+      - run: npm ci
 
       - id: script
         uses: actions/github-script@v6
