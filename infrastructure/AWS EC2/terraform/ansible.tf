@@ -17,10 +17,10 @@ module "ansible_control_node" {
 #!/bin/bash
 echo "alias ll='ls -lah --color=auto'" >> /etc/bashrc
 
-dnf update -y
-dnf install python3.11 -y
-dnf install python3-pip -y
-pip install ansible
+apt update -y
+apt install software-properties-common -y
+add-apt-repository --yes --update ppa:ansible/ansible -y
+apt install ansible bat -y
   
 EOF
 
@@ -56,10 +56,10 @@ module "ansible_managed_nodes" {
 #!/bin/bash
 echo "alias ll='ls -lah --color=auto'" >> /etc/bashrc
 
-dnf update -y
-dnf install python3.11 -y
-dnf install python3-pip -y
-pip install ansible
+apt update -y
+apt install software-properties-common -y
+add-apt-repository --yes --update ppa:ansible/ansible -y
+apt install ansible bat -y
   
 EOF
 
@@ -94,7 +94,7 @@ module "sg_control_node" {
       to_port     = 22
       protocol    = "tcp"
       description = "Allow ssh user access "
-      cidr_blocks = "200.140.155.82/32"
+      cidr_blocks = format("%s%s", var.my_ext_ip, "/32")
     },
   ]
 }
@@ -103,7 +103,7 @@ module "sg_managed_nodes" {
   source = "terraform-aws-modules/security-group/aws"
   version = "5.1.0"
 
-  name        = "ansible-master"
+  name        = "ansible-managed-node"
   description = "Security group for ansible managed nodes"
   vpc_id      = "vpc-027bb666074a77701"
 
@@ -120,9 +120,48 @@ module "sg_managed_nodes" {
       to_port     = 22
       protocol    = "tcp"
       description = "Allow ssh user access "
-      cidr_blocks = "200.140.155.82/32"
+      cidr_blocks = format("%s%s", var.my_ext_ip, "/32")
+    },
+    {
+      from_port   = 5432
+      to_port     = 5432
+      protocol    = "tcp"
+      description = "Allow db connection user access "
+      cidr_blocks = format("%s%s", var.my_ext_ip, "/32")
+    },
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      description = "Allow ssh user access "
+      cidr_blocks = "54.218.162.57/32"
+    },
+    {
+      from_port   = 3000
+      to_port     = 3000
+      protocol    = "tcp"
+      description = "Allow frontend user access "
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 3333
+      to_port     = 3333
+      protocol    = "tcp"
+      description = "Allow backend user access "
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 5432
+      to_port     = 5432
+      protocol    = "tcp"
+      description = "Allow db access"
+      cidr_blocks = "54.202.151.157/32"
     },
   ]
+}
+
+variable "my_ext_ip" {
+  type = string
 }
 
 data "aws_ami" "private_ec2" {
