@@ -89,7 +89,7 @@ function App() {
     <div className="App">
       <header className="container">
         <div className="header">
-          <h1>Dont be lazy</h1>
+          <h1>Task list</h1>
         </div>
         <TodoList
           todos={todos}
