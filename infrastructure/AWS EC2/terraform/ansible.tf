@@ -137,8 +137,8 @@ module "sg_managed_nodes" {
       cidr_blocks = "54.218.162.57/32"
     },
     {
-      from_port   = 3000
-      to_port     = 3000
+      from_port   = 3035
+      to_port     = 3035
       protocol    = "tcp"
       description = "Allow frontend user access "
       cidr_blocks = "0.0.0.0/0"
