@@ -1,0 +1,8 @@
+---
+repo_name: https://github.com/phelipeavila/to-do-list.git
+repo_dir: /home/ubuntu/repo
+subfolder: services/backend
+app_name: to-do-list
+api_port: 3333
+db_url: "postgresql://admin:admin@35.91.244.127:5432/sample"
+NODEJS_VERSION: 18

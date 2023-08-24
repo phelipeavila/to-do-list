@@ -1,0 +1,20 @@
+---
+- hosts: [database]
+  user: ubuntu
+  become: yes
+  roles:
+    - { role: postgres, tags: [postgres] }
+
+- hosts: [backend]
+  user: ubuntu
+  roles:
+    - { role: git-checkout, tags: [backend] }
+    - { role: nodejs, tags: [backend] }
+    - { role: backend, tags: [backend] }
+
+- hosts: [frontend]
+  user: ubuntu
+  roles:
+    - { role: git-checkout, tags: [frontend] }
+    - { role: nodejs, tags: [frontend] }
+    - { role: frontend, tags: [frontend] }

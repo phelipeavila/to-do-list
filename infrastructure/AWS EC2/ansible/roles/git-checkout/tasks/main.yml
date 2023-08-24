@@ -1,0 +1,15 @@
+---
+- name: git checkout
+  git:
+    repo: "{{ repo_name }}"
+    dest: "{{ repo_dir }}"
+    #accept_hostkey: yes
+    #key_file:
+
+- name: git sparse-checkout
+  command: "{{ item }}"
+  with_items:
+    - git config --global --add safe.directory {{ repo_dir }}
+    - git sparse-checkout set {{ subfolder }}
+  args:
+    chdir: "{{ repo_dir }}"

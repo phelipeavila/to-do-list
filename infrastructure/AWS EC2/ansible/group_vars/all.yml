@@ -1,0 +1,3 @@
+---
+pg_version: 13
+ansible_ssh_private_key_file: /home/ubuntu/.ssh/west-2-key.pem

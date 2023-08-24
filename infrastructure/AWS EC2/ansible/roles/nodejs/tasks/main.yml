@@ -1,0 +1,41 @@
+- name: install nodejs prerequisites
+  become: true
+  apt:
+    name:
+      - apt-transport-https
+      - gcc
+      - g++
+      - make
+      - curl
+      - vim
+      - htop
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - net-tools
+      - software-properties-common
+    state: present
+
+- name: Install the gpg key for nodejs LTS
+  become: true
+  get_url:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+    dest: /etc/apt/trusted.gpg.d/node.asc
+    mode: "0644"
+    force: true
+
+- name: Install the nodejs LTS repos
+  become: true
+  apt_repository:
+    repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
+    state: present
+    update_cache: true
+    filename: nodesource
+
+- name: Install the nodejs
+  become: true
+  apt:
+    name:
+      - nodejs
+    state: present
+    update_cache: true

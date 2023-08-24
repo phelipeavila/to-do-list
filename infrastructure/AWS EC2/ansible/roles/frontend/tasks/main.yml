@@ -1,0 +1,52 @@
+---
+- name: Create env file for React app
+  template:
+    src: .env.tpl
+    dest: "{{ repo_dir }}/{{ subfolder }}/.env"
+
+- name: Install nginx
+  become: yes
+  apt:
+    name:
+      - nginx
+    state: present
+    update_cache: yes
+
+- name: Setup nginx .conf
+  become: yes
+  template:
+    src: "{{ app_name }}.conf.tpl"
+    dest: "/etc/nginx/sites-available/{{ app_name }}.conf"
+
+- name: Build React app
+  command: "{{ item }}"
+  with_items:
+    - npm ci
+    - npm run build
+  args:
+    chdir: "{{ repo_dir }}/{{ subfolder }}"
+
+- name: Copy build folder to nginx vhost
+  become: yes
+  copy:
+    src: "{{ repo_dir }}/{{ subfolder }}/build/"
+    dest: "{{ nginx_vhost_dir }}"
+    owner: www-data
+    group: www-data
+    mode: "0755"
+    remote_src: yes
+    directory_mode: yes
+  notify: restart nginx
+
+- name: Create symlink nginx vhost
+  become: yes
+  file:
+    src={{ nginx_sites }}/{{ app_name }}.conf
+    dest=/etc/nginx/sites-enabled/{{ app_name }}.conf
+    state=link
+  notify: restart nginx
+
+- name: Recursively remove original directory
+  file:
+    path: "{{ repo_dir }}"
+    state: absent
