@@ -23,9 +23,9 @@ The frontend is powered by a web server, which hosts a React application. This c
 - Web server and app server in containers managed by AKS and database in Azure PostgreSQL Server
 
 ## Some notes
-- Esse repositório foi criado para estudo. Minha principal motivação para criá-lo foi para documentar trechos de códigos e facilitar a reutilização em outros projetos. 
-- Como a intenção é documentar para reutilizar, poderei utilizar de diferentes ferramentas para criar os mesmos recursos. Dessa forma consigo deixar o repositório mais completo.
-- O repositório ainda está sendo criado e tentarei mantê-lo sempre atualizado e com a documentação mais detalhada possível
+- This repository was created for study purposes. My primary motivation behind its creation was to document code snippets, making them more accessible for reuse in other projects.
+- Since the goal is to document for future reuse, I might leverage different tools to create the same resources. That does not mean that one approach is superior to another. There are many ways to create these archtectures and by doing this it allows for a broader scope within the repository.
+- The repository is currently a work in progress, and I will strive to keep it consistently updated, featuring the most comprehensive documentation possible.
 
 
 ## Meus links
