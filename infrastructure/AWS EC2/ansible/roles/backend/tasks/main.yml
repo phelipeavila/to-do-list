@@ -16,7 +16,8 @@
   register: node_build
   with_items:
     - npm ci
-    - npm run db:migrate
+    - npx prisma db push
+    - npx prisma migrate deploy
   args:
     chdir: "{{ repo_dir }}/{{ subfolder }}"
 
@@ -35,38 +36,3 @@
     - pm2 start src/server.js --name backend
   args:
     chdir: "{{ repo_dir }}/{{ subfolder }}"
-
-# handlers:
-# - name: start PM2
-#   command:
-
-
-# - name: Copy build folder to nginx vhost
-#   become: yes
-#   copy:
-#     src: "{{ repo_dir }}/{{ subfolder }}/build/"
-#     dest: "{{ nginx_vhost_dir }}"
-#     mode: "0644"
-#     remote_src: yes
-#     directory_mode: yes
-#   notify: restart nginx
-
-# - name: Create symlink nginx vhost
-#   become: yes
-#   file:
-#     src={{ nginx_sites }}/{{ app_name }}.conf
-#     dest=/etc/nginx/sites-enabled/{{ app_name }}.conf
-#     state=link
-#   notify: restart nginx
-
-# - name: Recursively remove directory
-#   file:
-#     path: "{{ repo_dir }}"
-#     state: absent
-
-# handlers:
-# - name: restart nginx
-#   become: yes
-#   service:
-#     name: nginx
-#     state: restarted

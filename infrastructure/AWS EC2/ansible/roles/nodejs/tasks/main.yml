@@ -15,6 +15,7 @@
       - net-tools
       - software-properties-common
     state: present
+    update_cache: true
 
 - name: Install the gpg key for nodejs LTS
   become: true
