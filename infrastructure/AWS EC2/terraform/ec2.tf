@@ -73,7 +73,7 @@ module "ec2_control_node" {
   instance_type          = "t2.micro"
   key_name               = "west-2-key"
   monitoring             = true
-  vpc_security_group_ids = [module.sg_control_node.security_group_id]
+  vpc_security_group_ids = [aws_security_group.sg_control_node.id]
   subnet_id              = module.vpc.public_subnets[0]
   user_data_replace_on_change = true
   user_data = <<EOF

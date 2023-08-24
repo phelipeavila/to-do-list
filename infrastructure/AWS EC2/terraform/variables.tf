@@ -3,7 +3,8 @@ variable "enable_prevent_destroy" {
   default     = true
 }
 
-variable "my_ext_ip" {
-  description = "External IP of the host running terraform. This IP will be added in the security group to allow SSH Connections from it."
-  type = string
+variable "allowed_cidr" {
+  description = "CIDR to be added to security group rule to allow ssh connection from it"
+  type = list
+  default = [ ]
 }
