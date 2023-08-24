@@ -1,4 +1,4 @@
 ---
-database_name: sample
-database_user: admin
-database_password: admin
+database_name: DB_NAME
+database_user: USER
+database_password: PASSWORD

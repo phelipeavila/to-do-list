@@ -5,5 +5,5 @@ subfolder: services/frontend
 app_name: to-do-list
 nginx_sites: /etc/nginx/sites-available
 nginx_vhost_dir: /var/www/to-do-list
-api_url: http://54.202.151.157:3333
+api_url: http://BACKEND_EXT_IP:3333
 NODEJS_VERSION: 18
